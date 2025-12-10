@@ -25,21 +25,29 @@ public class LoginFrame extends JFrame {
 
         txtUser = new JTextField();
         txtUser.setBounds(45, 130, 310, 30);
+        txtUser.setFont(new Font("Garamond", Font.BOLD, 17));
         add(txtUser);
 
         txtPass = new JPasswordField();
         txtPass.setBounds(45, 190, 310, 30);
+        txtPass.setFont(new Font("Garamond", Font.BOLD, 17));
         add(txtPass);
+
+        JLabel LIBRARY = new JLabel();
+        LIBRARY.setText("LIBRARY");
+        LIBRARY.setBounds(90, 10, 300, 60);
+        LIBRARY.setFont(new Font("Garamond", Font.BOLD, 50));
+        add(LIBRARY);
 
         JLabel LOGIN = new JLabel();
         LOGIN.setText("LOG IN");
-        LOGIN.setBounds(110, 30, 200, 60);
-        LOGIN.setFont(new Font("Garamond", Font.BOLD, 50));
+        LOGIN.setBounds(160, 40, 200, 60);
+        LOGIN.setFont(new Font("Garamond", Font.BOLD, 17));
         add(LOGIN);
 
         JLabel usrnm = new JLabel();
         usrnm.setText("USERNAME:");
-        usrnm.setBounds(45, 90, 150, 60);
+        usrnm.setBounds(45, 90, 200, 60);
         usrnm.setForeground(Color.BLACK);
         usrnm.setFont(new Font("Garamond", Font.BOLD, 15));
         add(usrnm);
