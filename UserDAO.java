@@ -6,7 +6,7 @@ public class UserDAO {
 
     private static final String FILE_PATH = "users.txt";
 
-    // Login method
+    // Login reads from the file
     public User login(String username, String password) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
@@ -14,9 +14,9 @@ public class UserDAO {
                 String[] parts = line.split(",");
                 if (parts.length < 3) continue;
 
-                int id = Integer.parseInt(parts[0]); // fake ID
-                String u = parts[1];
-                String p = parts[2];
+                int id = Integer.parseInt(parts[0].trim());
+                String u = parts[1].trim();
+                String p = parts[2].trim();
 
                 if (u.equals(username) && p.equals(password)) {
                     User user = new User(u, p);
@@ -27,36 +27,37 @@ public class UserDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null; // login failed
+        return null;
     }
 
-    // Register method
+    // Register new user: writes to users.txt and sets the User.id
     public boolean register(User user) {
         try {
-            // Check if username already exists
+            // Check if username exists
             try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(",");
                     if (parts.length < 3) continue;
-                    if (parts[1].equals(user.getUsername())) return false;
+                    if (parts[1].trim().equals(user.getUsername())) return false;
                 }
             }
 
-            // Assign fake ID: last ID + 1
+            // Get last ID
             int lastId = 0;
             try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(",");
                     if (parts.length < 3) continue;
-                    lastId = Math.max(lastId, Integer.parseInt(parts[0]));
+                    lastId = Math.max(lastId, Integer.parseInt(parts[0].trim()));
                 }
             }
 
             int newId = lastId + 1;
             user.setId(newId);
 
+            // Write new user to file
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
                 bw.write(user.getId() + "," + user.getUsername() + "," + user.getPassword());
                 bw.newLine();
