@@ -2,7 +2,13 @@
 CREATE DATABASE IF NOT EXISTS library_db;
 USE library_db;
 
-);
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+       username VARCHAR(100) NOT NULL UNIQUE,
+       password VARCHAR(100) NOT NULL,
+       role ENUM('admin', 'student') DEFAULT 'student' );
+
 
 -- Books table
 CREATE TABLE IF NOT EXISTS books (
