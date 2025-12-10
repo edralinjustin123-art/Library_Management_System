@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
     private BookDAO bookDAO = new BookDAO();
     private JTable table;
     private DefaultTableModel model;
-    private Font garamondFont = new Font("Garamond", Font.PLAIN, 14); // base font
+    private Font garamondFont = new Font("Garamond", Font.PLAIN, 14);
 
     public MainFrame(User user) {
         this.user = user;
@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
         setTitle("Library System");
         setSize(900, 600);
         setLocationRelativeTo(null);
-        setLayout(null); // Use null layout for flexible positioning
+        setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // ===== TOP PANEL =====
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
         btnLogout.setFont(garamondFont);
         top.add(btnLogout);
 
-        add(top); // add top panel to frame
+        add(top);
 
         // ===== TABLE =====
         model = new DefaultTableModel(
@@ -68,33 +68,31 @@ public class MainFrame extends JFrame {
 
         table = new JTable(model);
         table.setFont(garamondFont);
-        table.setRowHeight(25); // adjust row height to fit font
+        table.setRowHeight(25);
         table.setBackground(new Color(0xC3B091));
         table.setForeground(Color.BLACK);
 
-        // Table header font
         JTableHeader header = table.getTableHeader();
         header.setFont(garamondFont);
         header.setBackground(new Color(0xC3B091));
         header.setForeground(Color.BLACK);
 
-        // ===== SCROLLPANE =====
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(0, 50, 900, 500); // position under top panel
+        scrollPane.setBounds(0, 50, 900, 500);
         scrollPane.getViewport().setBackground(new Color(0xd9a7c7d));
         scrollPane.setBackground(new Color(0xd9a7c7d));
 
         add(scrollPane);
 
-        // Entire frame bg color
         getContentPane().setBackground(new Color(0xd9a7c7d));
 
-        // Load books
         loadBooks();
 
         // ===== BUTTON ACTIONS =====
+
+        // 🔍 FIXED SEARCH FEATURE
         btnSearch.addActionListener(e -> {
-            List<Book> result = bookDAO.searchTitle(search.getText());
+            List<Book> result = bookDAO.searchBooks(search.getText());
             refreshTable(result);
         });
 
