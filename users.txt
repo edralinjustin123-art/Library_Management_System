@@ -1,3 +1,5 @@
-admin,admin123,Admin User,admin
-student1,password1,Student One,student
-student2,password2,Student Two,student
+ID  |  USERNAME | PASSWORD
+
+1,justin,justin111
+2,paul,paul222
+3,hadji,hadji333
