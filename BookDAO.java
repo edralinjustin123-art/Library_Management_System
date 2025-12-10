@@ -19,8 +19,8 @@ public class BookDAO {
                 b.setId(rs.getInt("book_id"));
                 b.setTitle(rs.getString("title"));
                 b.setAuthor(rs.getString("author"));
-                b.setCategory(rs.getString("genre"));   // fixed column
-                b.setAvailable(rs.getInt("quantity"));  // fixed column
+                b.setCategory(rs.getString("genre"));
+                b.setAvailable(rs.getInt("quantity"));
                 list.add(b);
             }
         } catch (Exception e) {
@@ -30,15 +30,17 @@ public class BookDAO {
         return list;
     }
 
-    // Search books by title
-    public List<Book> searchTitle(String q) {
+    // 🔍 Search books by title OR author
+    public List<Book> searchBooks(String q) {
         List<Book> list = new ArrayList<>();
-        String sql = "SELECT * FROM books WHERE title LIKE ?";
+        String sql = "SELECT * FROM books WHERE title LIKE ? OR author LIKE ?";
 
         try (Connection c = DBConnection.getConnection();
              PreparedStatement p = c.prepareStatement(sql)) {
 
             p.setString(1, "%" + q + "%");
+            p.setString(2, "%" + q + "%");
+
             ResultSet rs = p.executeQuery();
 
             while (rs.next()) {
@@ -58,12 +60,13 @@ public class BookDAO {
         return list;
     }
 
-    // Borrow a book
+    // Borrow a book using user ID from users.txt
     public boolean borrow(int userId, int bookId) {
 
         String sqlCheck = "SELECT quantity FROM books WHERE book_id = ?";
         String sqlBorrow = "UPDATE books SET quantity = quantity - 1 WHERE book_id = ?";
-        String sqlLog = "INSERT INTO transactions (user_id, book_id, borrow_date, due_date) VALUES (?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY))";
+        String sqlLog = "INSERT INTO transactions (user_id, book_id, borrow_date, due_date) " +
+                "VALUES (?, ?, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 14 DAY))";
 
         try (Connection c = DBConnection.getConnection()) {
             c.setAutoCommit(false);
